@@ -1,0 +1,23 @@
+welcome: "Hello! I am calculator! GIVE ME NAME"
+valid_name: "YOUR NAME CANNOT BE THAT. HA HA HA FOOLISH. TRY AGAIN."
+adding: "Addling"
+subtracting: "Subtractioning"
+multiplying: "Multiplicycling"
+dividing: "Dividering"
+name_saved: "I NOW REMEMBER YOUR NAME,"
+number1: "Number time!"
+number2: "Second number time!"
+num_error: "WHY ARE YOU TRYING TO CONFUSE ME THAT IS HORRID. TRY WITH REAL NUMBER."
+operator_prompt: |
+    Operation!
+    1)add
+    2)subtract
+    3)multiply
+    4)divide
+op_error1: "Not that tough. One of four possible choices. TRY AGAIN PLEASE,"
+op_error2: "1, 2, 3, or 4 this time."
+with: "with"
+math_is_hard: "is super tough but I BELIEVE IN ME."
+got_it: "I know it! It is"
+exit?: "This can continue forever or you type Y now"
+exiting: "TERMINATING ALL THE THINGS"
