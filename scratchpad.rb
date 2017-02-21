@@ -139,6 +139,8 @@ puts "hash[1 && 2] is #{hash[1 && 2].inspect} because 1 && 2 evaluates to 2 and 
 
 # Lesson 4, ruby collections, selection and transformation 
 
+=begin
+
 produce = {
   'apple' => 'Fruit',
   'carrot' => 'Vegetable',
@@ -243,7 +245,20 @@ Line |     Action    |       Object      |Side Effect| Return Value|  Used?
 
 =end
 
+require "SecureRandom"
 
+def uuid_gen
+  SecureRandom.hex(4) + "-"  + SecureRandom.hex(2) + "-" + SecureRandom.hex(2) + "-" + SecureRandom.hex(2) + "-" + SecureRandom.hex(6)
+end
 
+uuid_gen
 
-
+def sequence (count, start)
+  result = []
+  multiply_by = 1
+  count.times do
+    result << start * (count * multiply_by)
+    multiply_by += 1
+  end
+  result
+end
