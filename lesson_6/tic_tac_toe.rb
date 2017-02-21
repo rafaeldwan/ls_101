@@ -10,17 +10,6 @@ def prompt(msg)
   puts "==>" + msg
 end
 
-def thinking
-  3.times do
-    5.times do
-      sleep(0.1)
-      print "."
-    end
-    sleep(0.4)
-    prompt ""
-  end
-end
-
 # rubocop:disable Metrics/AbcSize
 def display_board(brd)
   system "clear"
