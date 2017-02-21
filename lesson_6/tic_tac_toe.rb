@@ -97,7 +97,6 @@ def intelligence(brd, marker, antimarker)
 end
 
 def computer_placement!(brd)
-  puts "MY TURN SUCKA"
   square = intelligence(brd, COMPUTER_MARKER, PLAYER_MARKER)
   square = intelligence(brd, PLAYER_MARKER, COMPUTER_MARKER) if square == 0
   if square == 0
