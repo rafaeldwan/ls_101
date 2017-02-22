@@ -89,13 +89,13 @@ end
 
 def computer_placement!(brd)
   square = computer_decision(brd, COMPUTER_MARKER, PLAYER_MARKER)
-  square = computer_decision(brd, PLAYER_MARKER, COMPUTER_MARKER) if square == nil
-  if square == nil
+  square = computer_decision(brd, PLAYER_MARKER, COMPUTER_MARKER) if square.nil?
+  if square.nil?
     square = if empty_squares(brd).include?(5)
-      5
-    else
-      empty_squares(brd).sample
-    end
+               5
+             else
+               empty_squares(brd).sample
+             end
   end
   brd[square] = COMPUTER_MARKER
 end
@@ -114,12 +114,12 @@ def who_first
 [S]UPERIOR?"
     choice = gets.chomp
     starter = case choice.upcase
-    when "M" then "player"
-    when "S" then "computer"
-    else
-      prompt "ERRORERROEROEERRORERORRR THIS IS NOT HARD."
-      next
-    end
+              when "M" then "player"
+              when "S" then "computer"
+              else
+                prompt "ERRORERROEROEERRORERORRR THIS IS NOT HARD."
+                next
+              end
     break(starter)
   end
 end
@@ -132,7 +132,7 @@ def someone_won?(brd)
   !!detect_winner(brd)
 end
 
-def detect_winner(brd, *total_score)
+def detect_winner(brd)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
       return PLAYER_NAME
@@ -151,9 +151,9 @@ def update_score(winner, score)
   end
 end
 
-def ultimate_victory(total_score)
-  prompt "I WIN EVERYTHING I AM THE BEST YOU SUUUUUUCK" if total_score[:computer] == 5
-  if total_score[:player] == 5
+def ultimate_victory(score)
+  prompt "I WIN EVERYTHING I AM THE BEST YOU SUUUUUUCK" if score[:computer] == 5
+  if score[:player] == 5
     prompt "YOU CHEATED FIVE TIMES JUST SO YOU COULD BEAT ME? SHAME. \
     SHAAAAME!!!!"
   end
@@ -162,7 +162,7 @@ end
 def again?
   prompt "I COULD DO THIS FOREVER. YOU? (Y/N)"
   answer = gets.chomp
-  if answer.upcase == 'N'
+  if answer.casecmp('N')
     puts "SO BE IT. ONCE AGAIN INTO THE VOID."
     return false
   end
@@ -170,7 +170,7 @@ def again?
 end
 
 loop do
-  score = {player: 0, computer: 0}
+  score = { player: 0, computer: 0 }
   loop do
     board = intialize_board
     current_player = FIRST
@@ -192,12 +192,12 @@ loop do
     else
       prompt "IS A TIE! YOUR CHEATING DID NOT BRING YOU VICTORY THIS TIME."
     end
-    
+
     prompt "THE TOTAL SCORE IS #{score[:player]} to #{score[:computer]}"
     prompt "RETURN TO CONTINUE"
     gets
     next unless score.values.include?(5)
-    
+
     ultimate_victory(score)
     break
   end
