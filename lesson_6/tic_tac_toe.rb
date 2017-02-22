@@ -1,5 +1,3 @@
-require 'pry'
-
 INITIAL_MARKER = " "
 FIRST = "computer"
 PLAYER_MARKER = "X"
@@ -184,7 +182,6 @@ loop do
       place_piece!(board, current_player)
       display_board(board)
       current_player = alternate_player(current_player)
-      # binding.pry
       break if someone_won?(board) || board_full?(board)
     end
 
@@ -195,11 +192,12 @@ loop do
     else
       prompt "IS A TIE! YOUR CHEATING DID NOT BRING YOU VICTORY THIS TIME."
     end
+    
     prompt "THE TOTAL SCORE IS #{score[:player]} to #{score[:computer]}"
     prompt "RETURN TO CONTINUE"
-    binding.pry
     gets
     next unless score.values.include?(5)
+    
     ultimate_victory(score)
     break
   end
