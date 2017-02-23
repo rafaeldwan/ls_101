@@ -161,8 +161,8 @@ end
 
 def again?
   prompt "I COULD DO THIS FOREVER. YOU? (Y/N)"
-  answer = gets.chomp
-  if answer.casecmp('N')
+  answer = gets.chomp.upcase
+  if answer == ('N')
     puts "SO BE IT. ONCE AGAIN INTO THE VOID."
     return false
   end
