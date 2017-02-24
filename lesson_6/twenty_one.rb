@@ -4,23 +4,28 @@ NEW_DECK = { "2" => 4, "3" => 4, "4" => 4, "5" => 4, "6" => 4,
 
 FACE_CARDS = ["J", "Q", "K", "A"]
 
-PLAY_TO = 31
-HIT_UNTIL = 27
+PLAY_TO = 21
+HIT_UNTIL = 17
 
 def prompt(string)
   puts "==>#{string}"
 end
 
+def clear_screen
+  system('clear') || system('cls')
+end
+
 def deal_that_card!(deck)
   card = nil
+  deck = NEW_DECK.dup if deck.values.all? == 0
 
   loop do
     card = rand(2..14)
     card = card <= 10 ? card.to_s : FACE_CARDS[card - 11]
-    next if deck[card] == 0
-    deck[card] -= 1
+    break unless deck[card] == 0
     break
   end
+  deck[card] -= 1
   card
 end
 
@@ -56,7 +61,7 @@ def player_choice
   loop do
     prompt "[H]it or [S]tay?"
     h_or_s = gets.chomp.upcase
-    return h_or_s if h_or_s == "H" || h_or_s == "S"
+    break(h_or_s) if h_or_s == "H" || h_or_s == "S"
     prompt "I'm so sorry, I don't understand. Let me try again, please."
   end
 end
@@ -66,18 +71,12 @@ def busted?(current_score)
 end
 
 def calculate_winner(current_score)
-  result = if current_score[:player] > PLAY_TO
-             :player_bust
-           elsif current_score[:dealer] > PLAY_TO
-             :dealer_bust
-           elsif current_score[:player] == current_score[:dealer]
-             :tie
-           elsif current_score[:player] > current_score[:dealer]
-             :player
-           else
-             :dealer
-           end
-  result
+  if current_score[:player] > PLAY_TO then :player_bust
+  elsif current_score[:dealer] > PLAY_TO then :dealer_bust
+  elsif current_score[:player] == current_score[:dealer] then :tie
+  elsif current_score[:player] > current_score[:dealer] then :player
+  else :dealer
+  end
 end
 
 def display_winner(result)
@@ -117,8 +116,18 @@ def ultimate_victory?(game_score)
 end
 
 def display_ultimate_victory(last_won)
-  round_winner = last_won == :dealer_bust || last_won == :player ? "Player" : "Dealer"
-  winner = last_won == :dealer_bust || last_won == :player ? "So cool! You are" : "Wow, I am"
+  round_winner = if last_won == :dealer_bust || last_won == :player
+                   "Player"
+                 else
+                   "Dealer"
+                 end
+
+  winner = if last_won == :dealer_bust || last_won == :player
+             "So cool! You are"
+           else
+             "Wow, I am"
+           end
+
   puts "#{round_winner} wins the round..."
   puts "and that means that's the game! #{winner} the winner!"
 end
@@ -129,7 +138,7 @@ def again?
   if response == "Y"
     puts "That great! Great! Ok here we go!"
     sleep(1)
-    system "clear"
+    clear_screen
   end
   response == "Y"
 end
@@ -142,7 +151,7 @@ loop do
   game_score = { player: 0, dealer: 0 }
 
   loop do
-    deck = NEW_DECK
+    deck = NEW_DECK.dup
     player_hand = []
     dealer_hand = []
     current_score = { player: 0, dealer: 0 }
@@ -156,24 +165,21 @@ loop do
     puts "Dealer shows #{dealer_hand[0]}"
 
     current_score = { player: score(player_hand), dealer: score(dealer_hand) }
-    unless current_score[:player] == PLAY_TO
 
-      loop do
-        h_or_s = player_choice
-        current_score[:player] = score(player_hand)
-        if h_or_s == "S"
-          prompt "You're staying there at #{current_score[:player]}! Good for you!"
-          break
-        end
-
-        prompt "Hit! Exciting!"
-
-        player_hand.push deal_that_card!(deck)
-        display_hand("Player", player_hand)
-
-        current_score[:player] = score(player_hand)
-        break if current_score[:player] >= PLAY_TO
+    until current_score[:player] >= PLAY_TO
+      h_or_s = player_choice
+      current_score[:player] = score(player_hand)
+      if h_or_s == "S"
+        prompt "You're staying there at #{current_score[:player]}! Good for you!"
+        break
       end
+
+      prompt "Hit! Exciting!"
+
+      player_hand.push deal_that_card!(deck)
+      display_hand("Player", player_hand)
+
+      current_score[:player] = score(player_hand)
     end
 
     if busted?(current_score[:player])
@@ -218,7 +224,7 @@ loop do
       display_game_score(game_score)
       sleep(4)
 
-      system "clear"
+      clear_screen
       display_game_score(game_score)
     end
 
