@@ -262,3 +262,235 @@ def sequence (count, start)
   end
   result
 end
+
+
+
+# Write a method that takes a positive integer as an argument and 
+# returns that number with its digits reversed. Examples:
+
+# reversed_number(12345) == 54321
+# reversed_number(12213) == 31221
+# reversed_number(456) == 654
+# reversed_number(12000) == 21 # Note that zeros get dropped!
+# reversed_number(1) == 1
+
+input: positive int
+return: number with digits reversed
+
+int to string, string to array? string reverse
+
+def reversed_number(int)
+  int.to_s.reverse.to_i
+end
+  
+  
+
+A triangle is classified as follows:
+
+equilateral All 3 sides are of equal length
+isosceles 2 sides are of equal length, while the 3rd is different
+scalene All 3 sides are of different length
+To be a valid triangle, the sum of the lengths of the two shortest sides must be
+greater than the length of the longest side, and all sides must have lengths 
+greater than 0: if either of these conditions is not satisfied, the triangle is 
+invalid.
+
+Write a method that takes the lengths of the 3 sides of a triangle as arguments,
+ and returns a symbol :equilateral, :isosceles, :scalene, or :invalid depending
+  on whether the triangle is equilateral, isosceles, scalene, or invalid.
+
+Examples:
+
+triangle(3, 3, 3) == :equilateral
+triangle(3, 3, 1.5) == :isosceles
+triangle(3, 4, 5) == :scalene
+triangle(0, 3, 3) == :invalid
+triangle(3, 1, 1) == :invalid
+
+Given: length of three sides of triange
+Return: symbol :equilatera, :isoceles :scalene or :invalid
+Rules: Valid: two shortest sides sum must be greater than longest side, all sides greater
+than 0
+Equilateral: all 3 equal
+Isoceles: 2 equal
+Scalene: all different
+
+
+test for zero
+test for min+min+max > max
+return invalid if either true
+test for isoceles
+test for scalene
+else scalene
+  
+def triangle(side1, side2, side3)
+  tri_array = [side1, side2, side3]
+  return :invalid if tri_array.include?(0)
+  largest = tri_array.sort!.pop
+  return :invalid if largest > tri_array.sum
+  if side1 == side2 && side1 == side3
+    return :equilateral 
+  elsif side1 != side2 && side1 != side3
+    return :scalene 
+  end 
+  return :isosceles
+end
+
+triangle(3, 3, 3) == :equilateral
+triangle(3, 3, 1.5) == :isosceles
+triangle(3, 4, 5) == :scalene
+triangle(0, 3, 3) == :invalid
+triangle(3, 1, 1) == :invalid
+
+\Write a method named include? that takes an Array and a search value as 
+arguments. This method should return true if the search value is in the array, 
+false if it is not. You may not use the Array#include? method in your solution.
+
+include?([1,2,3,4,5], 3) == true
+include?([1,2,3,4,5], 6) == false
+include?([], 3) == false
+include?([nil], nil) == true
+include?([], nil) == false
+
+
+given, array, value
+
+return: boolean, true if value is in array
+rules: no array.include
+
+iterate through, return true if conditions
+
+def include?(array, arg)
+  array.any? { |i| i == arg }
+end
+
+color = "purple"
+
+loop do |cr|
+  color = "orange"
+  break
+end
+
+puts color
+
+def shout(string)
+  string << '!!!'
+  string.upcase!
+end
+
+sentence = 'hello world'
+shout(sentence)
+
+letters_and_numbers = {'a' => 1, 'b' => 2, 'c' => 3}
+
+hsh = letters_and_numbers.each do |letter, num|
+  p num + 5
+end
+
+hsh = {}
+
+letters_and_numbers.each do |letter, num|
+  hsh[letter] = num < 4
+end
+
+letters_and_numbers = {'a' => 1, 'b' => 2, 'c' => 3}
+
+hsh = letters_and_numbers.select do |letter, num|
+  num > 4
+end
+
+p hsh
+
+# Write a method that takes an array of strings, and returns an array of 
+# the same string values, except with the vowels (a, e, i, o, u) removed.
+
+# remove_vowels(%w(abcdefghijklmnopqrstuvwxyz)) == %w(bcdfghjklmnpqrstvwxyz)
+# remove_vowels(%w(green YELLOW black white)) == %w(grn YLLW blck wht)
+# remove_vowels(%w(ABC AEIOU XYZ)) == ['BC', '', 'XYZ']
+
+# given: arr of strings string
+# return: string with vowels removed
+
+# gsub with regex should do
+
+def remove_vowels(arr)
+  arr.each { |string| string.gsub!(/[aeiou]/i, "") }
+end
+
+def remove_vowels(arr)
+  arr.map { |string| string.gsub(/[aeiou]/i, "") }
+end
+
+
+Write a method that searches for all multiples of 3 or 5 that lie between 1 
+and some other number, and then computes the sum of those multiples. For 
+instance, if the supplied number is 20, the result should be 
+98 (3 + 5 + 6 + 9 + 10 + 12 + 15 + 18 + 20).
+
+You may assume that the number passed in is an integer greater than 1.
+
+
+multisum(3) == 3
+multisum(5) == 8
+multisum(10) == 33
+multisum(1000) == 234168
+
+
+given: a number n
+return: sum of numbers between 1 and n that are multiples of 3 or 5
+
+use modulus and sum
+
+def multisum(n)
+  (1..n).select { |num| num % 5 == 0 || num % 3 == 0 }.sum
+end
+
+
+"8 * 4"
+
+def bubble_sort!(arr)
+  i = 0
+  skipped = 0
+  skip_and_break = arr.length - 1
+  loop do
+    if arr[i] > arr[i+1]
+      arr[i], arr[i + 1] = arr[i+1], arr[i]
+      skipped = 0
+      i += 1
+      skip_and_break -= 1 if skip_and_break == i
+    else
+      i += 1
+      skipped += 1
+    end
+    
+    break if skip_and_break == 1
+    i = 0,  skipped = 0 if skipped == skip_and_break
+  end
+end
+
+
+
+def bubble_sort!(arr)
+  i = 0
+  skipped = 0
+  new_arr = []
+  loop do
+    if arr[i] > arr[i+1]
+      arr[i], arr[i + 1] = arr[i+1], arr[i]
+      skipped = 0
+      i += 1
+    else
+      i += 1
+      skipped += 1
+    end
+    binding.pry
+    if skipped == arr.length - 1
+      (arr << arr_new).flatten
+      break 
+    end
+    if i == arr.length - 1
+      i = 0 && skipped = 0 
+      new_arr << arr.pop
+    end
+  end
+end
